@@ -56,13 +56,54 @@ def myDepthFirstSearch(problem):
     return []
 
 def myBreadthFirstSearch(problem):
-    # YOUR CODE HERE
-    util.raiseNotDefined()
+    visited = {}
+    queue = util.Queue()
+
+    queue.push((problem.getStartState(), None))
+
+    while not queue.isEmpty():
+        state, prev_state = queue.pop()
+
+        if problem.isGoalState(state):
+            solution = [state]
+            while prev_state != None:
+                solution.append(prev_state)
+                prev_state = visited[prev_state]
+            return solution[::-1]
+
+        if state not in visited:
+            visited[state] = prev_state
+
+            for next_state, step_cost in problem.getChildren(state):
+                queue.push((next_state, state))
+
     return []
 
 def myAStarSearch(problem, heuristic):
-    # YOUR CODE HERE
-    util.raiseNotDefined()
+    visited = {}
+    cost = {}
+    pq = util.PriorityQueue()
+    st = problem.getStartState()
+    cost[st] = 0.0
+    pq.push((st,None),heuristic(st))
+    
+    while not pq.isEmpty():
+        state,prev_state = pq.pop()
+
+        if problem.isGoalState(state):
+            solution = [state]
+            while prev_state != None:
+                solution.append(prev_state)
+                prev_state = visited[prev_state]
+            return solution[::-1]
+
+        if state not in visited:
+            visited[state] = prev_state
+
+            for next_state,step_cost in problem.getChildren(state):
+                cost[next_state] = cost[state] + step_cost
+                pq.push((next_state, state),heuristic(next_state)+cost[next_state])
+    
     return []
 
 """
