@@ -132,12 +132,64 @@ class MyMinimaxAgent():
             return None, state.evaluateScore()        
 
         best_state, best_score = None, -float('inf') if state.isMe() else float('inf')
+        if state.isMe():
+            for child in state.getChildren():
+                _,score = self.minval(child,0)
+                if score > best_score:
+                    best_score = score
+                    best_state = child
+        else:
+            for child in state.getChildren():
+                _,score = self.maxval(child,0)
+                if score < best_score:
+                    best_score = score
+                    best_state = child
+
+        return best_state,best_score
+
+    def maxval(self,state,depth):
+        if state.isTerminated():
+            return None,state.evaluateScore() 
+        
+        if depth >= self.depth:
+            return state,state.evaluateScore() 
+
+        best_state,best_score = None,-float('inf')
 
         for child in state.getChildren():
-            # YOUR CODE HERE
-            util.raiseNotDefined()
+            if child.isMe():
+                _,score = self.maxval(child,depth+1)
+                if score > best_score:
+                    best_state = child
+                    best_score = score
+            else:
+                _,score = self.minval(child,depth)
+                if score > best_score:
+                    best_state = child
+                    best_score = score
         
-        return best_state, best_score
+        return best_state,best_score
+
+
+    def minval(self,state,depth):
+        if state.isTerminated():
+            return None,state.evaluateScore()
+
+        best_state,best_score = None,float('inf')
+
+        for child in state.getChildren():
+            if child.isMe():
+                _,score = self.maxval(child,depth+1)
+                if score < best_score:
+                    best_state = child
+                    best_score = score
+            else:
+                _,score = self.minval(child,depth)
+                if score < best_score:
+                    best_state = child
+                    best_score = score
+        
+        return best_state,best_score
 
     def getNextState(self, state):
         best_state, _ = self.minimax(state, self.depth)
@@ -148,6 +200,68 @@ class MyAlphaBetaAgent():
     def __init__(self, depth):
         self.depth = depth
 
+    def alphabet(self,state,depth):
+        if state.isTerminated():
+            return None, state.evaluateScore() 
+            
+        best_state,best_score = self.maxval(state,0,-float('inf'),float('inf'))
+
+        return best_state,best_score
+        
+
+    def maxval(self,state,depth,a,b):
+        if state.isTerminated():
+            return None,state.evaluateScore() 
+        
+        if depth >= self.depth:
+            return state,state.evaluateScore()
+
+        best_state,best_score = None,-float('inf')
+        for child in state.getChildren():
+            if child.isMe():
+                _,score = self.maxval(child,depth+1,a,b)
+                if score > best_score:
+                    best_score = score
+                    best_state = child
+                if best_score > b:
+                    return best_state,best_score
+                a = max(a,best_score)
+            else:
+                _,score = self.minval(child,depth,a,b)
+                if score > best_score:
+                    best_score = score
+                    best_state = child
+                if best_score > b:
+                    return best_state,best_score
+                a = max(a,best_score)
+        
+        return best_state,best_score
+
+    def minval(self,state,depth,a,b):
+        if state.isTerminated():
+            return None,state.evaluateScore()
+
+        best_state,best_score = None,float('inf')
+        for child in state.getChildren():
+            if child.isMe():
+                _,score = self.maxval(child,depth+1,a,b)
+                if score < best_score:
+                    best_score = score
+                    best_state = child
+                if best_score < a:
+                    return best_state,best_score
+                b = min(b,best_score)
+            else:
+                _,score = self.minval(child,depth,a,b)
+                if score < best_score:
+                    best_score = score
+                    best_state = child
+                if best_score < a:
+                    return best_state,best_score
+                b = min(b,best_score)
+
+        return best_state,best_score
+
     def getNextState(self, state):
-        # YOUR CODE HERE
-        util.raiseNotDefined()
+        best_state, _ = self.alphabet(state,self.depth)
+        return best_state
