@@ -36,7 +36,7 @@ def myBreadthFirstSearch(problem):
 ```
 
 ### A-star
-A\*算法使用优先队列来排序。按照$f(n)=h(n)+g(n)$排序。期中$h$启发式函数，预估到目标点的距离。$g$是到当前节点的cost。初始时初始节点$g=0，f=h$。在算法实现中，使用一个字典`cost`记录到每个节点的距离（即g(n)）。初始时字典中只有初始节点,value是0.0。在扩展节点时，使用`cost[next_state] = cost[state] + step_cost`记录该路径上下个子节点的cost。循环方式与BFS类型。每次从优先队列弹出第一个元素。判断是否是目标节点，若是则通过visited找到路径并返回。之后判断是否在visited中。若不在，则获取其所有子节点，并得到到子节点的cost，之后将子节点压入优先队列。循环上述过程，直至优先队列为空。
+A\*算法使用优先队列来排序。按照$f(n)=h(n)+g(n)$排序。其中$h$是启发式函数，预估到目标点的距离。$g$是到当前节点的cost。初始时初始节点$g=0，f=h$。在算法实现中，使用一个字典`cost`记录到每个节点的距离（即g(n)）。初始时字典中只有初始节点,value是0.0。在扩展节点时，使用`cost[next_state] = cost[state] + step_cost`记录该路径上下个子节点的cost。循环方式与BFS类型。每次从优先队列弹出第一个元素。判断是否是目标节点，若是则通过visited找到路径并返回。之后判断是否在visited中。若不在，则获取其所有子节点，并得到到子节点的cost，之后将子节点压入优先队列。循环上述过程，直至优先队列为空。
 
 源代码:
 
@@ -230,6 +230,271 @@ python环境: Python 3.6.13
 $ ./test.sh 2> err.txt 1>result.txt
 ```
 最后`err.txt`为空，`result.txt`中所有case通过。
-`result.txt`中部分结果:
 
-![](./media/1.png)
+`result.txt`中的结果:
+```
+Starting on 5-24 at 15:00:17
+
+Question q1
+===========
+*** PASS: test_cases/q1/graph_backtrack.test
+*** 	solution:		['1:A->C', '0:C->G']
+*** 	expanded_states:	['A', 'D', 'C']
+*** PASS: test_cases/q1/graph_bfs_vs_dfs.test
+*** 	solution:		['2:A->D', '0:D->G']
+*** 	expanded_states:	['A', 'D']
+*** PASS: test_cases/q1/graph_infinite.test
+*** 	solution:		['0:A->B', '1:B->C', '1:C->G']
+*** 	expanded_states:	['A', 'B', 'C']
+*** PASS: test_cases/q1/graph_manypaths.test
+*** 	solution:		['2:A->B2', '0:B2->C', '0:C->D', '2:D->E2', '0:E2->F', '0:F->G']
+*** 	expanded_states:	['A', 'B2', 'C', 'D', 'E2', 'F']
+*** PASS: test_cases/q1/pacman_1.test
+*** 	pacman layout:		mediumMaze
+*** 	solution length: 130
+*** 	nodes expanded:		146
+
+### Question q1: 4/4 ###
+
+
+Finished at 15:00:17
+
+Provisional grades
+==================
+Question q1: 4/4
+------------------
+Total: 4/4
+
+Your grades are NOT yet registered.  To register your grades, make sure
+to follow your instructor's guidelines to receive credit on your project.
+
+[SearchAgent] using function depthFirstSearch
+[SearchAgent] using problem type PositionSearchProblem
+Path found with total cost of 130 in 0.0 seconds
+Search nodes expanded: 146
+Pacman emerges victorious! Score: 380
+Average Score: 380.0
+Scores:        380.0
+Win Rate:      1/1 (1.00)
+Record:        Win
+Starting on 5-24 at 15:00:19
+
+Question q2
+===========
+*** PASS: test_cases/q2/graph_backtrack.test
+*** 	solution:		['1:A->C', '0:C->G']
+*** 	expanded_states:	['A', 'B', 'C', 'D']
+*** PASS: test_cases/q2/graph_bfs_vs_dfs.test
+*** 	solution:		['1:A->G']
+*** 	expanded_states:	['A', 'B']
+*** PASS: test_cases/q2/graph_infinite.test
+*** 	solution:		['0:A->B', '1:B->C', '1:C->G']
+*** 	expanded_states:	['A', 'B', 'C']
+*** PASS: test_cases/q2/graph_manypaths.test
+*** 	solution:		['1:A->C', '0:C->D', '1:D->F', '0:F->G']
+*** 	expanded_states:	['A', 'B1', 'C', 'B2', 'D', 'E1', 'F', 'E2']
+*** PASS: test_cases/q2/pacman_1.test
+*** 	pacman layout:		mediumMaze
+*** 	solution length: 68
+*** 	nodes expanded:		269
+
+### Question q2: 4/4 ###
+
+
+Finished at 15:00:19
+
+Provisional grades
+==================
+Question q2: 4/4
+------------------
+Total: 4/4
+
+Your grades are NOT yet registered.  To register your grades, make sure
+to follow your instructor's guidelines to receive credit on your project.
+
+[SearchAgent] using function bfs
+[SearchAgent] using problem type PositionSearchProblem
+Path found with total cost of 68 in 0.0 seconds
+Search nodes expanded: 269
+Pacman emerges victorious! Score: 442
+Average Score: 442.0
+Scores:        442.0
+Win Rate:      1/1 (1.00)
+Record:        Win
+Starting on 5-24 at 15:00:21
+
+Question q3
+===========
+*** PASS: test_cases/q3/astar_0.test
+*** 	solution:		['Right', 'Down', 'Down']
+*** 	expanded_states:	['A', 'B', 'D', 'C', 'G']
+*** PASS: test_cases/q3/astar_1_graph_heuristic.test
+*** 	solution:		['0', '0', '2']
+*** 	expanded_states:	['S', 'A', 'D', 'C']
+*** PASS: test_cases/q3/astar_2_manhattan.test
+*** 	pacman layout:		mediumMaze
+*** 	solution length: 68
+*** 	nodes expanded:		221
+*** PASS: test_cases/q3/astar_3_goalAtDequeue.test
+*** 	solution:		['1:A->B', '0:B->C', '0:C->G']
+*** 	expanded_states:	['A', 'B', 'C']
+*** PASS: test_cases/q3/graph_backtrack.test
+*** 	solution:		['1:A->C', '0:C->G']
+*** 	expanded_states:	['A', 'B', 'C', 'D']
+*** PASS: test_cases/q3/graph_manypaths.test
+*** 	solution:		['1:A->C', '0:C->D', '1:D->F', '0:F->G']
+*** 	expanded_states:	['A', 'B1', 'C', 'B2', 'D', 'E1', 'F', 'E2']
+
+### Question q3: 4/4 ###
+
+
+Finished at 15:00:21
+
+Provisional grades
+==================
+Question q3: 4/4
+------------------
+Total: 4/4
+
+Your grades are NOT yet registered.  To register your grades, make sure
+to follow your instructor's guidelines to receive credit on your project.
+
+[SearchAgent] using function astar and heuristic manhattanHeuristic
+[SearchAgent] using problem type PositionSearchProblem
+Path found with total cost of 68 in 0.0 seconds
+Search nodes expanded: 221
+Pacman emerges victorious! Score: 442
+Average Score: 442.0
+Scores:        442.0
+Win Rate:      1/1 (1.00)
+Record:        Win
+Starting on 5-24 at 15:00:22
+
+Question q2
+===========
+
+*** PASS: test_cases/q2/0-eval-function-lose-states-1.test
+*** PASS: test_cases/q2/0-eval-function-lose-states-2.test
+*** PASS: test_cases/q2/0-eval-function-win-states-1.test
+*** PASS: test_cases/q2/0-eval-function-win-states-2.test
+*** PASS: test_cases/q2/0-lecture-6-tree.test
+*** PASS: test_cases/q2/0-small-tree.test
+*** PASS: test_cases/q2/1-1-minmax.test
+*** PASS: test_cases/q2/1-2-minmax.test
+*** PASS: test_cases/q2/1-3-minmax.test
+*** PASS: test_cases/q2/1-4-minmax.test
+*** PASS: test_cases/q2/1-5-minmax.test
+*** PASS: test_cases/q2/1-6-minmax.test
+*** PASS: test_cases/q2/1-7-minmax.test
+*** PASS: test_cases/q2/1-8-minmax.test
+*** PASS: test_cases/q2/2-1a-vary-depth.test
+*** PASS: test_cases/q2/2-1b-vary-depth.test
+*** PASS: test_cases/q2/2-2a-vary-depth.test
+*** PASS: test_cases/q2/2-2b-vary-depth.test
+*** PASS: test_cases/q2/2-3a-vary-depth.test
+*** PASS: test_cases/q2/2-3b-vary-depth.test
+*** PASS: test_cases/q2/2-4a-vary-depth.test
+*** PASS: test_cases/q2/2-4b-vary-depth.test
+*** PASS: test_cases/q2/2-one-ghost-3level.test
+*** PASS: test_cases/q2/3-one-ghost-4level.test
+*** PASS: test_cases/q2/4-two-ghosts-3level.test
+*** PASS: test_cases/q2/5-two-ghosts-4level.test
+*** PASS: test_cases/q2/6-tied-root.test
+*** PASS: test_cases/q2/7-1a-check-depth-one-ghost.test
+*** PASS: test_cases/q2/7-1b-check-depth-one-ghost.test
+*** PASS: test_cases/q2/7-1c-check-depth-one-ghost.test
+*** PASS: test_cases/q2/7-2a-check-depth-two-ghosts.test
+*** PASS: test_cases/q2/7-2b-check-depth-two-ghosts.test
+*** PASS: test_cases/q2/7-2c-check-depth-two-ghosts.test
+*** Running MinimaxAgent on smallClassic 1 time(s).
+Pacman died! Score: 84
+Average Score: 84.0
+Scores:        84.0
+Win Rate:      0/1 (0.00)
+Record:        Loss
+*** Finished running MinimaxAgent on smallClassic after 0 seconds.
+*** Won 0 out of 1 games. Average score: 84.000000 ***
+*** PASS: test_cases/q2/8-pacman-game.test
+
+### Question q2: 5/5 ###
+
+
+Finished at 15:00:23
+
+Provisional grades
+==================
+Question q2: 5/5
+------------------
+Total: 5/5
+
+Your grades are NOT yet registered.  To register your grades, make sure
+to follow your instructor's guidelines to receive credit on your project.
+
+Starting on 5-24 at 15:00:23
+
+Question q3
+===========
+
+*** PASS: test_cases/q3/0-eval-function-lose-states-1.test
+*** PASS: test_cases/q3/0-eval-function-lose-states-2.test
+*** PASS: test_cases/q3/0-eval-function-win-states-1.test
+*** PASS: test_cases/q3/0-eval-function-win-states-2.test
+*** PASS: test_cases/q3/0-lecture-6-tree.test
+*** PASS: test_cases/q3/0-small-tree.test
+*** PASS: test_cases/q3/1-1-minmax.test
+*** PASS: test_cases/q3/1-2-minmax.test
+*** PASS: test_cases/q3/1-3-minmax.test
+*** PASS: test_cases/q3/1-4-minmax.test
+*** PASS: test_cases/q3/1-5-minmax.test
+*** PASS: test_cases/q3/1-6-minmax.test
+*** PASS: test_cases/q3/1-7-minmax.test
+*** PASS: test_cases/q3/1-8-minmax.test
+*** PASS: test_cases/q3/2-1a-vary-depth.test
+*** PASS: test_cases/q3/2-1b-vary-depth.test
+*** PASS: test_cases/q3/2-2a-vary-depth.test
+*** PASS: test_cases/q3/2-2b-vary-depth.test
+*** PASS: test_cases/q3/2-3a-vary-depth.test
+*** PASS: test_cases/q3/2-3b-vary-depth.test
+*** PASS: test_cases/q3/2-4a-vary-depth.test
+*** PASS: test_cases/q3/2-4b-vary-depth.test
+*** PASS: test_cases/q3/2-one-ghost-3level.test
+*** PASS: test_cases/q3/3-one-ghost-4level.test
+*** PASS: test_cases/q3/4-two-ghosts-3level.test
+*** PASS: test_cases/q3/5-two-ghosts-4level.test
+*** PASS: test_cases/q3/6-tied-root.test
+*** PASS: test_cases/q3/7-1a-check-depth-one-ghost.test
+*** PASS: test_cases/q3/7-1b-check-depth-one-ghost.test
+*** PASS: test_cases/q3/7-1c-check-depth-one-ghost.test
+*** PASS: test_cases/q3/7-2a-check-depth-two-ghosts.test
+*** PASS: test_cases/q3/7-2b-check-depth-two-ghosts.test
+*** PASS: test_cases/q3/7-2c-check-depth-two-ghosts.test
+*** Running AlphaBetaAgent on smallClassic 1 time(s).
+Pacman died! Score: 84
+Average Score: 84.0
+Scores:        84.0
+Win Rate:      0/1 (0.00)
+Record:        Loss
+*** Finished running AlphaBetaAgent on smallClassic after 0 seconds.
+*** Won 0 out of 1 games. Average score: 84.000000 ***
+*** PASS: test_cases/q3/8-pacman-game.test
+
+### Question q3: 5/5 ###
+
+
+Finished at 15:00:24
+
+Provisional grades
+==================
+Question q3: 5/5
+------------------
+Total: 5/5
+
+Your grades are NOT yet registered.  To register your grades, make sure
+to follow your instructor's guidelines to receive credit on your project.
+
+Pacman emerges victorious! Score: 1679
+Average Score: 1679.0
+Scores:        1679.0
+Win Rate:      1/1 (1.00)
+Record:        Win
+```
